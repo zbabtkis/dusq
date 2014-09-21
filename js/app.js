@@ -11,8 +11,8 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 //    after the API code downloads.
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
-    height: window.innerWidth,
-    width: window.innerHeight,
+    height: window.innerHeight,
+    width: window.innerWidth,
     videoId: 'M7lc1UVf-VE',
     events: {
       'onReady': onPlayerReady,
@@ -39,7 +39,7 @@ function onPlayerStateChange(event) {
 }
 function stopVideo() {
   player.stopVideo();
-}  
+}
 
 cast.receiver.logger.setLevelValue(cast.receiver.LoggerLevel.DEBUG);
 
@@ -48,6 +48,25 @@ console.log('Application is ready, starting system');
 window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
 castReceiverManager.onSenderDisconnected = function (event) {
   console.log("sender disconnected");
+};
+
+var messageBus = castReceiverManager.getCastMessageBus('urn:x-cast:io.dusq');
+
+messageBus.onMessage = function ( e ) {
+
+  switch( e.data.action ) {
+    case 'play':
+      player.playVideo();
+      break;
+
+    case 'pause':
+      player.pauseVideo();
+      break;
+
+    case 'set_media':
+      player.loadVideoById( e.data.id );
+      break;
+  }
 };
 // The default inactivity is normally 10 seconds, since we are encouraging you
 // to debug this receiver, we are setting it to 10 minutes. As setting a break
