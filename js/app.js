@@ -39,7 +39,7 @@
   function stopVideo() {
     player.stopVideo();
   }  
-});
+}).call(this);
 
 cast.receiver.logger.setLevelValue(cast.receiver.LoggerLevel.DEBUG);
 
