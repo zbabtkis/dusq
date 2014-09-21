@@ -40,3 +40,18 @@
     player.stopVideo();
   }  
 });
+
+cast.receiver.logger.setLevelValue(cast.receiver.LoggerLevel.DEBUG);
+
+// Start the system
+console.log('Application is ready, starting system');
+window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+castReceiverManager.onSenderDisconnected = function (event) {
+  console.log("sender disconnected");
+};
+// The default inactivity is normally 10 seconds, since we are encouraging you
+// to debug this receiver, we are setting it to 10 minutes. As setting a break
+// point might inadvertently trigger a timeout. The purpose of the timer is to
+// speed the recognition of disconnection of a sender.  As the TCP/IP standard
+// mechanisms can be quite slow.
+castReceiverManager.start({maxInactivity: 600});
