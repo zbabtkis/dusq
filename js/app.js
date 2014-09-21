@@ -54,7 +54,9 @@ var messageBus = castReceiverManager.getCastMessageBus('urn:x-cast:io.dusq');
 
 messageBus.onMessage = function ( e ) {
 
-  switch( e.data.action ) {
+  switch( data.action ) {
+    var data = JSON.parse(e.data);
+
     case 'play':
       player.playVideo();
       break;
@@ -64,7 +66,7 @@ messageBus.onMessage = function ( e ) {
       break;
 
     case 'set_media':
-      player.loadVideoById( e.data.id );
+      player.loadVideoById( data.id );
       break;
   }
 };
