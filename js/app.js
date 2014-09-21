@@ -20,7 +20,7 @@ function onYouTubeIframeAPIReady() {
     }
   });
 
-  document.getElementById('')
+  document.getElementById('');
 }
 
 // 4. The API will call this function when the video player is ready.
@@ -53,9 +53,9 @@ castReceiverManager.onSenderDisconnected = function (event) {
 var messageBus = castReceiverManager.getCastMessageBus('urn:x-cast:io.dusq');
 
 messageBus.onMessage = function ( e ) {
+  var data = JSON.parse(e.data);
 
   switch( data.action ) {
-    var data = JSON.parse(e.data);
 
     case 'play':
       player.playVideo();
