@@ -13,21 +13,42 @@
 		<script>
 		var APP_NS = "urn:x-cast:io.dusq";
 
+		var appConfig, appController, customMessageBus;
+
 		window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
 
-		var appConfig = new cast.receiver.CastReceiverManager.Config();
+		appConfig = new cast.receiver.CastReceiverManager.Config();
 
 		appConfig.statusText = "Readt to play";
 		appConfig.maxInactivity = 30000;
 
-		var customMessageBus = castReceiverManager.getCastMessageBus(APP_NS);
+		customMessageBus = castReceiverManager.getCastMessageBus(APP_NS);
 
-		customMessageBus.onMessage = function(event) {
-			console.log(event);
-			document.body.style.backgroundColor = "blue";
-		}
+		appController = {
+			_commands: {},
 
+			registerCommand: function(name, command) {
+				this._commands[name] = command;
+			},
+
+			command: function() {
+				return this._commands[name] || function() {};
+			},
+
+			onMessage: function(event) {
+				var data = JSON.parse(event.data);
+
+				appController.command(data.command)
+					.apply(appController, data.args);
+			}
+		};
+
+		customMessageBus.onMessage = appController.onMessage;
     	window.castReceiverManager.start(appConfig);
+
+    	appController.registerCommand('setColor', function( color ) {
+			document.body.style.backgroundColor = color;
+		});
 		</script>
 	</body>
 </html>
