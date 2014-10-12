@@ -11,6 +11,7 @@
 	<body>
 		<div id="player">Hello</div>
 		<script>
+		var APP_NS = "io.dusq";
 
 		window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
 
@@ -20,6 +21,13 @@
 		appConfig.maxInactivity = 30000;
 
     	window.castReceiverManager.start(appConfig);
+
+    	var customMessageBus = castReceiverManager.getCastMessageBus('urn:x-cast:' + APP_NS);
+
+		customMessageBus.onMessage = function(event) {
+			console.log(event);
+			document.body.style.backgroundColor = "blue";
+		}
 		</script>
 	</body>
 </html>
