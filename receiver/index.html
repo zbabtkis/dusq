@@ -20,14 +20,14 @@
 		appConfig.statusText = "Readt to play";
 		appConfig.maxInactivity = 30000;
 
-    	window.castReceiverManager.start(appConfig);
-
-    	var customMessageBus = castReceiverManager.getCastMessageBus(APP_NS);
+		var customMessageBus = castReceiverManager.getCastMessageBus(APP_NS);
 
 		customMessageBus.onMessage = function(event) {
 			console.log(event);
 			document.body.style.backgroundColor = "blue";
 		}
+
+    	window.castReceiverManager.start(appConfig);
 		</script>
 	</body>
 </html>
