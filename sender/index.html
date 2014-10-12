@@ -13,6 +13,7 @@
     <input id="video-id" type="text" />
     <script>
     var DusqId = "4BCDEA9F";
+    var APP_NS = "io.dusq";
 
     ;(function( $ ) {
       if(typeof $ === 'undefined') {
@@ -23,7 +24,7 @@
         init: function(applicationID, el) {
           var sessionRequest = new chrome.cast.SessionRequest(applicationID);
 
-          Kaster.NS = "kaster:" + applicationID;
+          Kaster.NS = APP_NS;
           
           _.bindAll(this);
 
@@ -41,33 +42,33 @@
           this.$el = $(el);
           this.initialized = true;
 
-          this.el.className = "kaster-started";
+          this.el.className = "kaster kaster-started";
         },
         
         onSession: function() {
           console.log('onSession');
 
-          this.el.className= "kaster-session";
+          this.el.className= "kaster kaster-session";
         },
         
         onReceive: function(e) {
           console.log('onReceive', e);
-          this.el.className = "kaster-receive";
+          this.el.className = "kaster kaster-receive";
           this.el.addEventListener('click', this.onSessionRequest);
         },
         
         onInitSuccess: function() {
-          this.el.className = "kaster-initialized"
+          this.el.className = "kaster kaster-initialized"
           console.log('onInitSuccess');
         },
         
         onInitError: function() {
-          this.el.clasName = "kaster-error";
+          this.el.clasName = "kaster kaster-error";
           console.error('onInitEerror');
         },
         
         onSessionRequest: function() {
-          this.el.className = "kaster-requesting-session";
+          this.el.className = "kaster kaster-requesting-session";
           chrome.cast.requestSession(
             this.onRequestSessionSuccess, 
             this.onLaunchError);
@@ -75,7 +76,7 @@
         
         onRequestSessionSuccess: function(session) {
           this.session = session;
-          this.el.className = "kaster-has-session";
+          this.el.className = "kaster kaster-has-session";
           console.log('onRequestSessionSuccess');
         },
         
@@ -111,12 +112,12 @@
 
     var Dusq = new KasterApp(DusqId, document.getElementById('dusq-cc'));
 
-    /**$("video-id").on('change', function() {
+    $("video-id").on('change', function() {
       Dusq.send('video-id', $(this.val()))
         .then(function() {
           alert('done');
         });
-    });*/
+    });
     </script>
   </body>
 
