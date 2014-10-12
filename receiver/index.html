@@ -31,7 +31,7 @@
 				this._commands[name] = command;
 			},
 
-			command: function() {
+			command: function(name) {
 				return this._commands[name] || function() {};
 			},
 
