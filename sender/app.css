@@ -1,6 +1,40 @@
-.kaster-receive {
+.kaster {
 	border-radius: none;
-	background: red;
 	padding: 30px;
 	color: #fff;
+}
+
+.kaster-receive {
+	border-radius: none;
+	background: green;
+	padding: 30px;
+	color: #fff;
+}
+
+.kaster-requesting-session {
+	-webkit-animation: colorCycle 0.3s;
+	animation: colorCycle 0.3s;
+}
+
+@-webkit-keyframes colorCycle {
+	0% {
+		background-color: blue;
+	}
+	50% {
+		background-color: green;
+	}
+	100% {
+		background-color: blue;
+	}
+}
+@keyframes colorCycle {
+	0% {
+		background-color: blue;
+	}
+	50% {
+		background-color: green;
+	}
+	100% {
+		background-color: blue;
+	}
 }
