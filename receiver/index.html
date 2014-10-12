@@ -38,6 +38,8 @@
 			onMessage: function(event) {
 				var data = JSON.parse(event.data);
 
+				console.log(data);
+
 				appController.command(data.command)
 					.apply(appController, data.args);
 			}
@@ -46,7 +48,8 @@
 		customMessageBus.onMessage = appController.onMessage;
     	window.castReceiverManager.start(appConfig);
 
-    	appController.registerCommand('setColor', function( color ) {
+    	appController.registerCommand('setColor', function(color) {
+    		console.log('setColor', color);
 			document.body.style.backgroundColor = color;
 		});
 		</script>
