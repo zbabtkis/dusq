@@ -11,7 +11,15 @@
 	<body>
 		<div id="player">Hello</div>
 		<script>
-		alert('hi');
+
+		window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+
+		var appConfig = new cast.receiver.CastReceiverManager.Config();
+
+		appConfig.statusText = "Readt to play";
+		appConfig.maxInactivity = 30000;
+
+    	window.castReceiverManager.start(appConfig);
 		</script>
 	</body>
 </html>
