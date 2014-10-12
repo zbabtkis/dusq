@@ -6,6 +6,7 @@
 		<meta name="viewport" content="width=device-width" />
 
 		<script src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
+		<script src="js/Kaster.js"></script>
 		<link rel="stylesheet" href="css/app.css" />
 	</head>
 	<body>
@@ -13,42 +14,9 @@
 		<script>
 		var APP_NS = "urn:x-cast:io.dusq";
 
-		var appConfig, appController, customMessageBus;
+		var dusqReceiverController = new KasterApp.Receiver(APP_NS);
 
-		window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
-
-		appConfig = new cast.receiver.CastReceiverManager.Config();
-
-		appConfig.statusText = "Readt to play";
-		appConfig.maxInactivity = 30000;
-
-		customMessageBus = castReceiverManager.getCastMessageBus(APP_NS);
-
-		appController = {
-			_commands: {},
-
-			registerCommand: function(name, command) {
-				this._commands[name] = command;
-			},
-
-			command: function(name) {
-				return this._commands[name] || function() {};
-			},
-
-			onMessage: function(event) {
-				var data = JSON.parse(event.data);
-
-				console.log(data);
-
-				appController.command(data.command)
-					.apply(appController, data.args);
-			}
-		};
-
-		customMessageBus.onMessage = appController.onMessage;
-    	window.castReceiverManager.start(appConfig);
-
-    	appController.registerCommand('setColor', function(color) {
+    	dusqReceiverController.registerCommand('setColor', function(color) {
     		console.log('setColor', color);
 			document.body.style.backgroundColor = color;
 		});
