@@ -10,7 +10,7 @@
 
   <body>
     <button id="dusq-cc">Cast!</button>
-    <input id="video-id" type="text" />
+    <input id="color-id" type="text" />
     <script>
     var DusqId = "4BCDEA9F";
     var APP_NS = "urn:x-cast:io.dusq";
@@ -45,8 +45,9 @@
           this.el.className = "kaster kaster-started";
         },
         
-        onSession: function() {
+        onSession: function(session) {
           console.log('onSession');
+          this.session = session;
 
           this.el.className= "kaster kaster-session";
         },
@@ -95,8 +96,14 @@
         }
       };
 
-      KasterApp.prototype.send = function() {
+      KasterApp.prototype.send = function(command) {
         var defer = $.Deferred();
+        var args = [].slice.call(arguments);
+
+        var message = {
+          command: command, 
+          args: args
+        };
 
         Kaster.session.sendMessage(
           Kaster.NS, 
@@ -104,7 +111,7 @@
           defer.resolve,
           defer.reject);
 
-        return defer.promise;
+        return defer.promise();
       }
 
       window.Kaster = Kaster;
@@ -113,10 +120,17 @@
 
     var Dusq = new KasterApp(DusqId, document.getElementById('dusq-cc'));
 
-    $("video-id").on('change', function() {
-      Dusq.send('video-id', $(this.val()))
+    $("#color-id").on('keyup', function(e) {
+      if( e.keyCode !== 13 ) return;
+
+      console.log($(this).val());
+
+      Dusq.send('setColor', $(this).val())
         .then(function() {
           alert('done');
+        }, function() {
+          console.log(arguments);
+          alert('error');
         });
     });
     </script>
