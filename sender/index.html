@@ -59,8 +59,6 @@
         onInitSuccess: function() {
           this.el.className = "kaster-initialized"
           console.log('onInitSuccess');
-          chrome.cast.timeout.requestSession = 30000;
-          console.log(chrome.cast.timeout);
         },
         
         onInitError: function() {
