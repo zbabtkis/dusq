@@ -98,7 +98,7 @@
 
       KasterApp.prototype.send = function(command) {
         var defer = $.Deferred();
-        var args = [].slice.call(arguments);
+        var args = [].slice.call(arguments, 1);
 
         var message = {
           command: command, 
