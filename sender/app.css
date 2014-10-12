@@ -16,6 +16,10 @@
 	animation: colorCycle 0.3s;
 }
 
+.kaster-has-session {
+	background-color: blue;
+}
+
 @-webkit-keyframes colorCycle {
 	0% {
 		background-color: blue;
