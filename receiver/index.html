@@ -11,7 +11,7 @@
 	<body>
 		<div id="player">Hello</div>
 		<script>
-		var APP_NS = "io.dusq";
+		var APP_NS = "urn:x-cast:io.dusq";
 
 		window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
 
@@ -22,7 +22,7 @@
 
     	window.castReceiverManager.start(appConfig);
 
-    	var customMessageBus = castReceiverManager.getCastMessageBus('urn:x-cast:' + APP_NS);
+    	var customMessageBus = castReceiverManager.getCastMessageBus(APP_NS);
 
 		customMessageBus.onMessage = function(event) {
 			console.log(event);
