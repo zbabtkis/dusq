@@ -1,5 +1,5 @@
 // 2. This code loads the IFrame Player API code asynchronously.
-var tag = document.createElement('script');
+/**var tag = document.createElement('script');
 var done = false;
 var firstScriptTag = document.getElementsByTagName('script')[0];
 var player;
@@ -39,40 +39,4 @@ function onPlayerStateChange(event) {
 }
 function stopVideo() {
   player.stopVideo();
-}
-
-cast.receiver.logger.setLevelValue(cast.receiver.LoggerLevel.DEBUG);
-
-// Start the system
-console.log('Application is ready, starting system');
-window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
-castReceiverManager.onSenderDisconnected = function (event) {
-  console.log("sender disconnected");
-};
-
-var messageBus = castReceiverManager.getCastMessageBus('urn:x-cast:io.dusq');
-
-messageBus.onMessage = function ( e ) {
-  var data = JSON.parse(e.data);
-
-  switch( data.action ) {
-
-    case 'play':
-      player.playVideo();
-      break;
-
-    case 'pause':
-      player.pauseVideo();
-      break;
-
-    case 'set_media':
-      player.loadVideoById( data.id );
-      break;
-  }
-};
-// The default inactivity is normally 10 seconds, since we are encouraging you
-// to debug this receiver, we are setting it to 10 minutes. As setting a break
-// point might inadvertently trigger a timeout. The purpose of the timer is to
-// speed the recognition of disconnection of a sender.  As the TCP/IP standard
-// mechanisms can be quite slow.
-castReceiverManager.start({maxInactivity: 600});
+}*/

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <link rel="stylesheet" href="app.css" />
+    <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
+  </head>
+
+  <body>
+    <button id="dusq-cc">Cast!</button>
+    <input id="video-id" type="text" />
+    <script>
+    var DusqId = "4BCDEA9F";
+
+    ;(function( $ ) {
+      if(typeof $ === 'undefined') {
+        throw new Error("jQuery must be loaded on document for Kaster to work");
+      }
+
+      var Kaster = {
+        init: function(applicationID, el) {
+          var sessionRequest = new chrome.cast.SessionRequest(applicationID);
+
+          Kaster.NS = "kaster:" + applicationID;
+          
+          _.bindAll(this);
+
+          this.config = new chrome.cast.ApiConfig(
+            sessionRequest,
+            this.onSession,
+            this.onReceive);
+            
+          chrome.cast.initialize(
+            this.config, 
+            this.onInitSuccess, 
+            this.onInitError);
+
+          this.el = el;
+          this.$el = $(el);
+          this.initialized = true;
+
+          this.el.className = "kaster-started";
+        },
+        
+        onSession: function() {
+          console.log('onSession');
+
+          this.el.className= "kaster-session";
+        },
+        
+        onReceive: function(e) {
+          console.log('onReceive', e);
+          this.el.className = "kaster-receive";
+          this.el.addEventListener('click', this.onSessionRequest);
+        },
+        
+        onInitSuccess: function() {
+          this.el.className = "kaster-initialized"
+          console.log('onInitSuccess');
+          chrome.cast.timeout.requestSession = 30000;
+          console.log(chrome.cast.timeout);
+        },
+        
+        onInitError: function() {
+          this.el.clasName = "kaster-error";
+          console.error('onInitEerror');
+        },
+        
+        onSessionRequest: function() {
+          this.el.className = "kaster-requesting-session";
+          chrome.cast.requestSession(
+            this.onRequestSessionSuccess, 
+            this.onLaunchError);
+        },
+        
+        onRequestSessionSuccess: function(session) {
+          this.session = session;
+          this.el.className = "kaster-has-session";
+          console.log('onRequestSessionSuccess');
+        },
+        
+        onLaunchError: function(e) {
+          this.el.className = "kaster-launch-error";
+          console.error(e);
+        }
+      };
+
+      window.KasterApp = function(AppId, el) {
+        if (Kaster.initialized) {
+          throw new Error("A Kaster app is already running");
+        } else {
+          window.__onGCastApiAvailable = Kaster.init.bind(Kaster, AppId, el)
+        }
+      };
+
+      KasterApp.prototype.send = function() {
+        var defer = $.Deferred();
+
+        Kaster.session.sendMessage(
+          Kaster.NS, 
+          message,
+          defer.resolve,
+          defer.reject);
+
+        return defer.promise;
+      }
+
+      window.Kaster = Kaster;
+      
+    })(jQuery);
+
+    var Dusq = new KasterApp(DusqId, document.getElementById('dusq-cc'));
+
+    /**$("video-id").on('change', function() {
+      Dusq.send('video-id', $(this.val()))
+        .then(function() {
+          alert('done');
+        });
+    });*/
+    </script>
+  </body>
+
+</html>
